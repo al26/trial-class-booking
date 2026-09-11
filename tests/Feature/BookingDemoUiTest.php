@@ -4,9 +4,7 @@ use App\Enums\BookingStatus;
 use App\Enums\PaymentMethod;
 use App\Models\ParentModel;
 use App\Models\TrialClass;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
-uses(RefreshDatabase::class);
+use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 
 test('web UI renders booking demo page with classes and parents', function () {
     $parent = ParentModel::create(['name' => 'Budi Santoso', 'email' => 'budi@example.com']);
@@ -51,7 +49,8 @@ test('web UI allows parent to submit booking and redirects with flash message', 
         'payment_method' => PaymentMethod::CreditCard->value,
     ];
 
-    $response = $this->post(route('booking.store'), $payload);
+    $response = $this->withoutMiddleware(PreventRequestForgery::class)
+        ->post(route('booking.store'), $payload);
 
     $response->assertRedirect(route('booking.index'))
         ->assertSessionHas('booking_result');

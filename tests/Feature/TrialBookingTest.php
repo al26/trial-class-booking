@@ -7,9 +7,6 @@ use App\Models\Booking;
 use App\Models\ParentModel;
 use App\Models\Student;
 use App\Models\TrialClass;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
-uses(RefreshDatabase::class);
 
 beforeEach(function () {
     $this->parent = ParentModel::create([

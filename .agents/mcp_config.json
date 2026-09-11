@@ -1,0 +1,12 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "wsl.exe",
+            "args": [
+                "/home/amri/.phpenv/versions/8.4.24/bin/php",
+                "/home/amri/code/ottodot/trial-class-booking/artisan",
+                "boost:mcp"
+            ]
+        }
+    }
+}

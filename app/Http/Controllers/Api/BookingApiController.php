@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\BookingStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckoutBookingRequest;
 use App\Http\Resources\BookingResource;
@@ -22,8 +23,15 @@ class BookingApiController extends Controller
     {
         $booking = $this->bookingService->checkout($request->validated());
 
+        $statusCode = match ($booking->status) {
+            BookingStatus::Confirmed => Response::HTTP_CREATED,
+            BookingStatus::ClassFull => Response::HTTP_CONFLICT,
+            BookingStatus::PaymentFailed => Response::HTTP_UNPROCESSABLE_ENTITY,
+            default => Response::HTTP_OK,
+        };
+
         return (new BookingResource($booking))
             ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+            ->setStatusCode($statusCode);
     }
 }

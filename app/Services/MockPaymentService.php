@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\PaymentMethod;
 use App\Enums\PaymentStatus;
 use App\Models\PaymentAttempt;
 
@@ -12,7 +13,7 @@ class MockPaymentService
      *
      * @return array{status: PaymentStatus, reference_id: string}
      */
-    public function process(int $amount, string $paymentMethod, bool $simulateFailure = false): array
+    public function process(int $amount, PaymentMethod|string $paymentMethod, bool $simulateFailure = false): array
     {
         if ($simulateFailure) {
             return [
